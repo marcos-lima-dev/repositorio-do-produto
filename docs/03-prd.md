@@ -2,9 +2,14 @@
 ## Requisitos do Produto
 
 **Produto:** Plataforma de Atendimento Inteligente
+
 **Versão:** 0.2 — Construção incremental
-**Data:** 16 de novembro de 2026
-**Status:** Em elaboração
+
+**Data original:** 16 de novembro de 2026
+
+**Revisão documental:** 19 de novembro de 2026
+
+**Status:** Em elaboração — revisão de coerência documental
 
 ---
 
@@ -89,11 +94,15 @@ A empresa poderá revogar a autorização de um contato a qualquer momento.
 
 A revogação deverá:
 
-- Bloquear imediatamente o acesso às operações comerciais.
+- Impedir novas ações protegidas a partir de sua efetivação.
 - Impedir novas solicitações comerciais pelo contato.
-- Impedir o acesso a informações comerciais restritas.
+- Bloquear o acesso a informações comerciais restritas.
 - Preservar conversas, propostas e pedidos anteriores.
 - Registrar quem realizou a revogação e quando.
+
+As permissões deverão ser verificadas no momento de cada ação protegida. Assim, a revogação efetivada antes de uma ação impedirá sua realização, mesmo que o contato já tenha consultado anteriormente as informações relacionadas à operação.
+
+A revogação não deverá invalidar retroativamente ações legitimamente realizadas enquanto a autorização estava vigente.
 
 ## 8. Preservação do histórico
 
@@ -130,10 +139,10 @@ O módulo será considerado funcional quando:
 3. Uma solicitação de vínculo for criada e encaminhada ao gerente.
 4. Nenhum acesso comercial for concedido antes da aprovação.
 5. Somente o gerente puder aprovar novos contatos.
-6. O contato aprovado puder realizar operações comerciais como os demais contatos autorizados.
+6. O contato aprovado puder realizar somente as operações para as quais recebeu autorização individual.
 7. A ausência de resposta do gerente não liberar acesso automaticamente.
-8. A revogação bloquear imediatamente o acesso.
-9. A revogação preservar os registros anteriores.
+8. A revogação impedir novas ações protegidas a partir de sua efetivação.
+9. A revogação preservar os registros anteriores e as ações legitimamente realizadas.
 10. O sistema conseguir identificar quem autorizou ou revogou um contato e quando.
 
 ---
@@ -294,9 +303,9 @@ O cadastro permitirá:
 - Marca.
 - Unidade de comercialização.
 - Apresentação e embalagem.
-- Preço à vista.
-- Preço a prazo.
 - Situação do produto: ativo ou desativado.
+
+Os preços e as condições comerciais não serão administrados diretamente pelo cadastro do produto. Essas informações serão mantidas pelo Módulo 04, responsável pelas tabelas de preços e condições comerciais.
 
 Novos produtos poderão ser cadastrados individualmente. Produtos existentes poderão ser atualizados individualmente.
 
@@ -431,10 +440,14 @@ Se um cliente não possuir tabela vigente e autorizada, a IA não poderá reutil
 
 A situação deverá ser encaminhada ao responsável.
 
-Se houver conflito entre tabelas aplicáveis ao mesmo cliente:
+A existência de tabelas diferentes com preços distintos não caracteriza, por si só, um conflito. Diferenças destinadas a clientes, grupos ou finalidades comerciais diferentes são legítimas, desde que respeitem as associações e regras definidas pela empresa.
+
+Haverá conflito quando mais de uma tabela for simultaneamente aplicável ao mesmo cliente e não existir uma regra válida que determine qual deverá prevalecer.
+
+Nesse caso:
 
 1. O sistema deverá alertar o gerente.
-2. Toda a negociação comercial deverá ser bloqueada.
+2. A negociação que dependa da definição da tabela deverá ser bloqueada.
 3. O atendimento poderá continuar para informar o cliente sobre a verificação.
 4. A negociação aguardará a decisão do gerente.
 5. Após a resolução, o sistema deverá permitir sua retomada, preservando o histórico e o contexto anterior.
@@ -486,10 +499,9 @@ A aprovação interna posterior não poderá alterar unilateralmente essas condi
 
 O aceite e a aprovação interna são eventos distintos.
 
-Quando uma proposta perder a validade, deverá ser considerada a situação comercial atual:
+Quando uma proposta perder a validade, sua versão original e as condições que foram apresentadas deverão permanecer preservadas no histórico.
 
-- Atualizações que beneficiem o cliente poderão ser aplicadas, preservando o registro original.
-- Condições desfavoráveis não poderão ser impostas unilateralmente. Será necessária uma nova proposta e a concordância do cliente.
+Uma eventual atualização de preços ou condições não poderá ser aplicada silenciosamente à proposta anterior, mesmo quando representar uma condição mais favorável ao cliente. Caso seja necessário apresentar novas condições, deverá ser elaborada uma nova versão ou proposta, com identificação das alterações e oportunidade de manifestação do cliente.
 
 O vencimento ou a desativação da tabela não invalidará propostas já emitidas que ainda estejam dentro do prazo de validade.
 
@@ -503,12 +515,13 @@ O módulo deverá permitir:
 4. Preservar versões anteriores dos preços.
 5. Restringir alterações às pessoas autorizadas.
 6. Identificar ausência de tabela válida.
-7. Detectar conflitos entre tabelas e alertar o gerente.
-8. Bloquear a negociação diante de conflitos.
-9. Retomar a negociação após a resolução, sem perder seu contexto.
-10. Preservar propostas aceitas e operações realizadas.
-11. Identificar negociações afetadas por preços cadastrados incorretamente.
+7. Detectar conflitos entre tabelas simultaneamente aplicáveis ao mesmo cliente e alertar o gerente.
+8. Não tratar diferenças legítimas entre tabelas destinadas a públicos ou finalidades diferentes como conflitos.
+9. Bloquear a negociação que dependa da definição da tabela quando houver conflito entre tabelas simultaneamente aplicáveis ao mesmo cliente, sem regra válida de prevalência.
+10. Retomar a negociação após a resolução, sem perder seu contexto.
+11. Preservar propostas aceitas e operações realizadas.
 12. Impedir alterações retroativas silenciosas.
+13. Identificar negociações afetadas por preços cadastrados incorretamente.
 
 ---
 
@@ -521,15 +534,20 @@ A ordem de detalhamento dos módulos é:
 3. Catálogo e informações comerciais — consolidado.
 4. Preços, versões de tabelas e condições comerciais — consolidado.
 5. Atendimento inteligente e interpretação de solicitações — especificado e revisado.
-6. Propostas, pedidos e aprovações — pendente de especificação.
+6. Propostas, pedidos e aprovações — descoberta funcional concluída; consolidação e formalização no PRD pendentes.
 7. Ocorrências, pendências e encaminhamentos — pendente de especificação.
 8. Painel administrativo e supervisão — pendente de especificação.
 9. Histórico, relatórios e aprendizado — pendente de especificação.
+
+O Módulo 06 já possui descoberta funcional realizada e decisões registradas na matriz de rastreabilidade. Sua formalização em seção própria do PRD deverá ocorrer em etapa posterior, sem confundir descoberta funcional concluída com especificação documental consolidada ou implementação.
 
 Os módulos seguintes serão detalhados progressivamente, considerando as dependências funcionais e a prioridade do MVP.
 
 A especificação funcional não implica que todos os recursos descritos devam ser implementados na primeira versão. Recursos avançados poderão ser classificados como evoluções futuras.
 
+---
+
+# MÓDULO 05 — ATENDIMENTO INTELIGENTE E INTERPRETAÇÃO DE SOLICITAÇÕES
 
 ## 23. Objetivo e responsabilidade
 
@@ -572,18 +590,19 @@ O Módulo 05 deverá consultar essas informações e utilizar seus resultados pa
 
 ### 23.4. Condição para encaminhamento
 
-Uma solicitação somente poderá ser encaminhada ao Módulo 06 depois que:
+Uma solicitação poderá ser encaminhada ao Módulo 06 quando:
 
-1. As informações necessárias tiverem sido compreendidas e organizadas.
-2. As pendências que impeçam a elaboração da proposta tiverem sido resolvidas.
-3. O resumo da solicitação tiver sido apresentado ao cliente.
-4. O cliente tiver manifestado concordância expressa com o conteúdo apresentado.
+1. As informações necessárias à elaboração da proposta estiverem compreendidas e organizadas para os itens que poderão compor a proposta.
+2. As pendências que impeçam a elaboração da proposta inteira ou dos itens correspondentes estiverem resolvidas ou devidamente isoladas.
+3. Os itens que poderão integrar uma proposta parcial estiverem identificados e suficientemente compreendidos.
+4. O resumo correspondente tiver sido apresentado ao cliente.
+5. O cliente tiver manifestado concordância expressa com o conteúdo apresentado.
 
 O silêncio do cliente não será considerado concordância.
 
 A confirmação deverá estar vinculada à versão exata do resumo apresentado, preservando o registro do conteúdo confirmado.
 
----
+Uma pendência restrita a determinado item não deverá impedir automaticamente o encaminhamento dos demais itens válidos, desde que seja possível elaborar uma proposta parcial e que o cliente tenha concordado expressamente com o conteúdo encaminhado.
 
 ## 24. Início e elegibilidade do atendimento
 
@@ -909,7 +928,21 @@ A IA deverá permitir que o cliente aceite ou recuse as alternativas apresentada
 
 Não poderá substituir automaticamente o produto solicitado nem modificar a quantidade ou as condições da solicitação.
 
-### 27.8. Critérios de aceitação
+### 27.8. Ausência de preço definido
+
+Um produto sem preço definido não poderá ser utilizado na elaboração de uma proposta.
+
+Quando a IA identificar que um produto não possui preço cadastrado ou válido:
+
+1. Deverá impedir a inclusão daquele produto na proposta.
+2. Registrar a pendência relacionada ao item.
+3. Comunicar a gerência para que o preço seja definido ou corrigido.
+4. Informar ao cliente que o item depende de verificação comercial, sem inventar ou presumir um preço.
+5. Permitir que os demais itens com informações comerciais válidas prossigam, quando for possível elaborar uma proposta parcial e o cliente concordar com seu conteúdo.
+
+A ausência de preço não deverá ser tratada como preço vencido ou como conflito entre tabelas. São situações distintas e deverão ser identificadas separadamente.
+
+### 27.9. Critérios de aceitação
 
 O módulo deverá permitir:
 
@@ -921,10 +954,13 @@ O módulo deverá permitir:
 6. Impedir alterações automáticas nas quantidades solicitadas.
 7. Consultar preços conforme a tabela associada à empresa cliente.
 8. Impedir o uso de preços vencidos, conflitantes ou não autorizados.
-9. Encaminhar conflitos comerciais ao gerente.
-10. Preservar o contexto durante consultas e pendências.
-11. Apresentar somente alternativas autorizadas pela empresa.
-12. Exigir a concordância do cliente para aceitar alternativas ou alterar sua solicitação.
+9. Identificar produtos sem preço definido e impedir sua utilização em propostas.
+10. Comunicar à gerência a ausência de preço para correção.
+11. Permitir a continuidade dos demais itens válidos quando a pendência estiver isolada.
+12. Encaminhar conflitos comerciais ao gerente.
+13. Preservar o contexto durante consultas e pendências.
+14. Apresentar somente alternativas autorizadas pela empresa.
+15. Exigir a concordância do cliente para aceitar alternativas ou alterar sua solicitação.
 
 ---
 
@@ -970,7 +1006,11 @@ Cada item deverá preservar sua própria situação, informações confirmadas e
 
 A plataforma não deverá considerar toda a solicitação bloqueada quando apenas parte dela depender de esclarecimento ou intervenção.
 
-Entretanto, o encaminhamento ao Módulo 06 deverá respeitar os critérios de confirmação e suficiência das informações definidos neste PRD.
+Uma pendência isolada de item não deverá impedir automaticamente a elaboração de uma proposta parcial para os demais itens válidos.
+
+O encaminhamento ao Módulo 06 deverá respeitar os critérios de suficiência das informações e a concordância expressa do cliente para o conteúdo que integrará a proposta parcial.
+
+Quando uma pendência comprometer a solicitação como um todo ou impedir a elaboração de qualquer proposta, o encaminhamento deverá aguardar sua resolução.
 
 ### 28.6. Comunicação ao cliente
 
@@ -994,7 +1034,8 @@ O módulo deverá permitir:
 6. Registrar pendências e preservar o contexto.
 7. Manter itens independentes em andamento quando uma pendência não os afetar.
 8. Comunicar claramente ao cliente situações não resolvidas.
-9. Impedir o encaminhamento de solicitações incompletas ao Módulo 06.
+9. Impedir o encaminhamento de solicitações globalmente insuficientes ao Módulo 06.
+10. Permitir o encaminhamento de itens válidos para proposta parcial quando as condições de confirmação e suficiência forem atendidas.
 
 ---
 
@@ -1229,13 +1270,17 @@ Conforme a necessidade, deverá revalidar:
 
 Informações anteriores não deverão ser apresentadas como atuais sem nova validação quando sua validade depender de consulta ou vigência.
 
-Caso alguma informação tenha mudado, a IA deverá comunicar a situação e atualizar a solicitação conforme a decisão do cliente.
+A revalidação será necessária para orientar as próximas etapas do atendimento e a elaboração de novas versões ou propostas. Ela não deverá alterar retroativamente o conteúdo de uma proposta já apresentada e ainda válida, nem modificar compromissos anteriormente assumidos.
+
+Caso alguma informação tenha mudado e isso afete uma etapa ainda não concluída ou uma nova versão da solicitação ou proposta, a IA deverá comunicar a situação ao cliente e seguir o procedimento aplicável, preservando o histórico e as condições anteriormente apresentadas.
 
 ### 31.5. Preservação das confirmações anteriores
 
 A retomada do atendimento não deverá apagar ou modificar confirmações e versões anteriormente registradas.
 
 Quando houver alterações no conteúdo da solicitação após uma confirmação, será necessária uma nova apresentação e concordância expressa do cliente com a versão atualizada antes do encaminhamento ao Módulo 06.
+
+A revalidação de informações comerciais não deverá, por si só, invalidar uma proposta já apresentada e ainda válida. As condições e versões anteriormente apresentadas deverão permanecer rastreáveis.
 
 ### 31.6. Critérios de aceitação
 
@@ -1248,9 +1293,10 @@ O módulo deverá permitir:
 5. Impedir encaminhamento sem confirmação expressa.
 6. Recuperar o contexto quando o cliente retornar.
 7. Evitar a repetição de perguntas e informações já fornecidas.
-8. Revalidar informações comerciais antes de continuar a negociação.
-9. Preservar versões e confirmações anteriores.
-10. Exigir nova concordância quando houver alterações na solicitação.
+8. Revalidar informações comerciais necessárias às próximas etapas.
+9. Preservar propostas apresentadas e ainda válidas, sem alteração retroativa de suas condições.
+10. Preservar versões e confirmações anteriores.
+11. Exigir nova concordância quando houver alterações na solicitação.
 
 ---
 
@@ -1285,20 +1331,29 @@ A IA deverá encaminhar ao gerente situações que não possam ser resolvidas co
 - Produtos cuja identificação permaneça inconclusiva.
 - Informações comerciais conflitantes.
 - Ausência de dados essenciais que não possam ser obtidos.
+- Ausência de preço definido para um produto, situação que deverá ser comunicada à gerência para correção conforme o Módulo 04.
 - Dúvidas que dependam de avaliação ou decisão da empresa.
 - Situações excepcionais que ultrapassem as regras estabelecidas para o atendimento automatizado.
+
+Negociações de condições especiais que estejam cobertas por uma delegação válida e respeitem os limites estabelecidos pela empresa poderão prosseguir com o funcionário delegado, sem encaminhamento automático ao gerente apenas por serem negociações especiais.
+
+O encaminhamento ao gerente será necessário quando não houver delegação válida para a negociação ou quando a condição solicitada ultrapassar os limites da delegação existente.
+
+A delegação para negociar condições comerciais não deverá ser interpretada como autoridade para aprovar internamente propostas ou pedidos.
 
 O encaminhamento deverá ocorrer sem apresentar informações não confirmadas como se fossem válidas.
 
 ### 32.4. Controle do encaminhamento
 
-O encaminhamento inicial deverá ser direcionado ao gerente.
+O encaminhamento inicial deverá ser direcionado ao gerente, quando a situação exigir decisão gerencial.
 
 Caberá ao gerente avaliar a situação e decidir se o atendimento será assumido por ele ou encaminhado a um funcionário autorizado.
 
+Quando houver delegação válida para uma atividade ou negociação específica, o atendimento poderá permanecer com o funcionário delegado dentro dos limites dessa autorização.
+
 A IA não deverá escolher ou transferir automaticamente o atendimento para qualquer funcionário.
 
-A responsabilidade pela definição do atendente humano permanecerá sob controle da empresa.
+A responsabilidade pela definição das delegações e dos atendentes humanos permanecerá sob controle da empresa.
 
 ### 32.5. Registro do encaminhamento
 
@@ -1331,14 +1386,15 @@ O módulo deverá permitir:
 
 1. Reconhecer pedidos de atendimento humano em qualquer etapa.
 2. Encaminhar situações que ultrapassem os limites de resolução segura da IA.
-3. Direcionar inicialmente o encaminhamento ao gerente.
+3. Direcionar ao gerente as situações que dependam de decisão gerencial.
 4. Permitir que o gerente escolha o funcionário responsável.
-5. Impedir transferências automáticas para funcionários não definidos pelo gerente.
-6. Preservar o histórico e o contexto do atendimento.
-7. Registrar o motivo e os dados relevantes do encaminhamento.
-8. Informar o cliente sobre o andamento sem prometer prazos inexistentes.
-9. Retomar o atendimento após a resolução da pendência.
-10. Manter os demais atendimentos funcionando normalmente.
+5. Respeitar delegações válidas para negociações específicas e seus limites.
+6. Impedir transferências automáticas para funcionários não definidos ou autorizados pela empresa.
+7. Preservar o histórico e o contexto do atendimento.
+8. Registrar o motivo e os dados relevantes do encaminhamento.
+9. Informar o cliente sobre o andamento sem prometer prazos inexistentes.
+10. Retomar o atendimento após a resolução da pendência.
+11. Manter os demais atendimentos funcionando normalmente.
 
 ---
 
@@ -1352,15 +1408,21 @@ O Módulo 06 será responsável por utilizar essas informações para elaborar a
 
 ### 33.2. Condições para encaminhamento
 
-A solicitação somente poderá ser encaminhada quando:
+A solicitação poderá ser encaminhada quando:
 
-1. As informações necessárias para elaboração da proposta estiverem organizadas.
-2. Os itens incluídos na solicitação estiverem identificados.
+1. As informações necessárias para elaboração da proposta estiverem organizadas para os itens que poderão compor a proposta.
+2. Os itens incluídos estiverem identificados.
 3. As quantidades e especificações informadas estiverem registradas.
-4. As pendências que impeçam a elaboração da proposta estiverem resolvidas.
-5. O cliente tiver manifestado concordância expressa com o resumo apresentado.
+4. As pendências que impeçam a elaboração da proposta inteira ou dos itens correspondentes estiverem resolvidas ou devidamente isoladas.
+5. O cliente tiver manifestado concordância expressa com o resumo correspondente aos itens que serão encaminhados.
 
-A existência de uma pendência que impeça a elaboração da proposta deverá impedir o encaminhamento da solicitação enquanto não for resolvida.
+Uma pendência isolada de item não deverá bloquear automaticamente os demais itens válidos.
+
+Quando for possível elaborar uma proposta parcial, os itens sem pendências impeditivas poderão ser encaminhados ao Módulo 06, desde que estejam suficientemente compreendidos, organizados e expressamente confirmados pelo cliente.
+
+Quando uma pendência comprometer a solicitação como um todo ou impedir a elaboração de qualquer proposta, o encaminhamento deverá aguardar sua resolução.
+
+O encaminhamento não poderá incluir itens cuja identificação, informações essenciais ou condições necessárias à elaboração da proposta permaneçam indefinidas.
 
 ### 33.3. Informações encaminhadas
 
@@ -1378,6 +1440,7 @@ O Módulo 05 deverá disponibilizar ao Módulo 06 as informações necessárias 
 - Histórico relevante da conversa.
 - Versão exata do resumo confirmado.
 - Registro da concordância expressa do cliente, com data e horário.
+- Identificação dos itens que não foram incluídos no encaminhamento, quando houver pendências isoladas que permitam uma proposta parcial.
 
 As informações deverão preservar sua origem e permitir rastrear o conteúdo que fundamentou a elaboração da proposta.
 
@@ -1432,7 +1495,7 @@ Essa rastreabilidade deverá preservar a relação entre a solicitação origina
 
 O módulo deverá permitir:
 
-1. Encaminhar somente solicitações que atendam às condições estabelecidas.
+1. Encaminhar somente solicitações ou itens que atendam às condições estabelecidas.
 2. Impedir o encaminhamento sem concordância expressa do cliente.
 3. Disponibilizar ao Módulo 06 as informações necessárias à elaboração da proposta.
 4. Preservar o conteúdo e a versão exata da solicitação confirmada.
@@ -1440,8 +1503,9 @@ O módulo deverá permitir:
 6. Identificar inconsistências que impeçam a elaboração da proposta.
 7. Preservar o histórico em caso de retorno para esclarecimento.
 8. Exigir nova concordância quando o esclarecimento modificar o conteúdo anteriormente confirmado.
-9. Manter a separação das responsabilidades dos Módulos 05 e 06.
-10. Preservar a rastreabilidade entre o atendimento e as operações comerciais posteriores.
+9. Permitir proposta parcial quando houver pendência isolada de item e os demais itens forem válidos e confirmados.
+10. Manter a separação das responsabilidades dos Módulos 05 e 06.
+11. Preservar a rastreabilidade entre o atendimento e as operações comerciais posteriores.
 
 ## 34. Critérios gerais de aceitação
 
@@ -1480,6 +1544,9 @@ O módulo deverá:
 5. Apresentar somente alternativas autorizadas.
 6. Exigir a decisão do cliente para alterações de produtos ou quantidades.
 7. Manter itens independentes em andamento quando uma pendência não os afetar.
+8. Impedir a utilização em propostas de produtos sem preço definido.
+9. Comunicar à gerência a ausência de preço para que a informação seja definida ou corrigida.
+10. Permitir a continuidade dos demais itens válidos quando a pendência de preço estiver isolada e houver condições para uma proposta parcial.
 
 ### 34.4. Histórico e continuidade
 
@@ -1493,6 +1560,7 @@ O módulo deverá:
 6. Realizar até duas tentativas de retomada diante da ausência de resposta à confirmação.
 7. Manter aberto o atendimento classificado como Aguardando retorno do cliente.
 8. Retomar a conversa sem exigir a repetição de informações já disponíveis e válidas.
+9. Preservar propostas apresentadas e ainda válidas, sem alterar retroativamente suas condições.
 
 ### 34.5. Confirmação da solicitação
 
@@ -1511,12 +1579,15 @@ O módulo deverá:
 O módulo deverá:
 
 1. Reconhecer solicitações de atendimento humano.
-2. Encaminhar situações não resolvidas com segurança ao gerente.
-3. Permitir que o gerente defina o funcionário responsável.
-4. Preservar o contexto e registrar as pendências do encaminhamento.
-5. Impedir o encaminhamento ao Módulo 06 sem os requisitos necessários e a confirmação expressa do cliente.
-6. Entregar ao Módulo 06 as informações e a versão exata da solicitação confirmada.
-7. Preservar a separação entre confirmação da solicitação, aceite da proposta e aprovação interna.
+2. Encaminhar situações não resolvidas com segurança ao gerente ou ao responsável definido conforme as delegações válidas.
+3. Permitir que o gerente defina o funcionário responsável quando a situação depender de sua decisão.
+4. Respeitar delegações válidas para negociações específicas, sem confundi-las com autoridade para aprovação interna.
+5. Preservar o contexto e registrar as pendências do encaminhamento.
+6. Comunicar à gerência a ausência de preço definido para um produto e impedir sua utilização na proposta até a correção.
+7. Impedir o encaminhamento ao Módulo 06 sem os requisitos necessários e a confirmação expressa do cliente para os itens encaminhados.
+8. Permitir o encaminhamento de itens válidos para proposta parcial quando houver pendência isolada em outros itens.
+9. Entregar ao Módulo 06 as informações e a versão exata da solicitação confirmada.
+10. Preservar a separação entre confirmação da solicitação, aceite da proposta e aprovação interna.
 
 ### 34.7. Critério final de conclusão
 

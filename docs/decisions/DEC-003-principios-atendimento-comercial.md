@@ -1,7 +1,9 @@
 # DEC-003 — Princípios de condução do atendimento comercial
 
-**Produto:** Plataforma de Atendimento Inteligente  
-**Data:** 18 de novembro de 2026  
+**Produto:** Plataforma de Atendimento Inteligente
+
+**Data:** 18 de novembro de 2026
+
 **Status:** Aprovada
 
 ## 1. Contexto
@@ -24,7 +26,8 @@ A condução do atendimento deverá respeitar os seguintes princípios:
 
 - Antes de acessar ou revelar informações comerciais protegidas, a plataforma deverá verificar se o cliente está cadastrado e vinculado à empresa.
 - Deverá confirmar se o contato está autorizado pela empresa e verificar suas permissões específicas.
-- A identificação do contato não significa autorização irrestrita para consultar informações ou tomar decisões.
+- A identificação do contato e seu vínculo com a empresa não significam autorização irrestrita para consultar informações ou tomar decisões.
+- As permissões individuais deverão ser verificadas conforme a ação solicitada, respeitando as configurações definidas pela empresa.
 - Contatos ainda não cadastrados poderão receber atendimento inicial para apresentação e identificação de necessidades.
 - O atendimento inicial não permitirá acesso a preços particulares, condições comerciais restritas ou histórico de outros clientes.
 - A coleta de dados para cadastro poderá acontecer durante a própria conversa, sem exigir formulário separado.
@@ -41,6 +44,8 @@ A condução do atendimento deverá respeitar os seguintes princípios:
 - Solicitações com vários produtos deverão ser tratadas individualmente por item.
 - Uma dúvida ou pendência em determinado produto não deverá impedir o tratamento dos demais itens.
 - As informações e pendências de cada item deverão ser preservadas.
+- Quando uma pendência estiver restrita a determinado item, os demais itens válidos poderão continuar seu fluxo, inclusive permitindo a elaboração de uma proposta parcial pelo Módulo 06.
+- Uma pendência que comprometa a compreensão ou a suficiência da solicitação como um todo deverá ser resolvida antes do encaminhamento correspondente.
 
 ### 2.3. Confirmação da solicitação
 
@@ -50,6 +55,8 @@ A condução do atendimento deverá respeitar os seguintes princípios:
 - Silêncio ou ausência de resposta não poderão ser interpretados como confirmação.
 - Cada confirmação deverá ficar vinculada à versão exata da solicitação aprovada.
 - Alterações realizadas antes da confirmação deverão ser refletidas no resumo apresentado novamente ao cliente.
+- A confirmação deverá preservar o conteúdo exato da solicitação, sua versão e o registro da manifestação do cliente.
+- A confirmação da solicitação não representa aceite de proposta comercial, aprovação interna ou autorização automática para registro de pedido.
 
 ### 2.4. Continuidade e retomada do atendimento
 
@@ -58,8 +65,10 @@ A condução do atendimento deverá respeitar os seguintes princípios:
 - Não haverá encerramento automático por ausência de resposta.
 - Quando o cliente retornar, a IA deverá recuperar o contexto e o estado anterior da negociação.
 - Não deverá reiniciar desnecessariamente o atendimento nem solicitar novamente informações já registradas.
-- Antes de prosseguir, deverá verificar novamente preços, condições comerciais e disponibilidade.
+- Antes de prosseguir com etapas ainda não concluídas ou elaborar novas versões, deverá verificar novamente preços, condições comerciais e disponibilidade.
 - Informações consultadas anteriormente não serão consideradas necessariamente vigentes.
+- A revalidação das informações comerciais não poderá alterar retroativamente propostas já apresentadas ao cliente.
+- Propostas apresentadas deverão respeitar suas versões, condições e prazos de validade, conforme as regras do Módulo 06.
 
 ### 2.5. Histórico e pedidos anteriores
 
@@ -84,27 +93,37 @@ A condução do atendimento deverá respeitar os seguintes princípios:
 - Quando um produto estiver indisponível, a IA deverá informar o cliente e consultar alternativas autorizadas pela empresa.
 - A decisão de aceitar uma alternativa será sempre do cliente.
 - Nenhum produto poderá ser removido ou substituído automaticamente.
+- Nenhum produto poderá ser utilizado em uma proposta sem preço definido.
+- A ausência de preço deverá bloquear a utilização do produto afetado e gerar comunicação à gerência para correção do cadastro.
+- A ausência de preço em um produto não deverá impedir automaticamente o andamento dos demais itens que possuam informações comerciais válidas.
+- A IA deverá distinguir ausência de preço, ausência de tabela comercial válida, conflito entre tabelas e indisponibilidade do produto, respeitando o tratamento específico de cada situação.
 
 ### 2.7. Encaminhamento humano e pendências
 
 - O cliente poderá solicitar atendimento humano a qualquer momento.
 - A IA também deverá encaminhar situações que não consiga resolver com segurança.
-- O contexto, o histórico e a pendência deverão ser registrados.
-- A solicitação será encaminhada ao gerente, que decidirá quem deverá tratá-la.
+- O registro da pendência deverá ser mantido para acompanhamento.
+- Quando uma pendência exigir decisão humana, o contexto, o histórico e a pendência deverão ser encaminhados ao gerente, que decidirá quem deverá tratá-la, respeitando as delegações válidas e os limites autorizados.
 - A plataforma não deverá transferir automaticamente o atendimento para qualquer funcionário.
+- Situações que exijam decisão humana deverão ser encaminhadas ao gerente, incluindo negociações de preço ou condições especiais quando não houver delegação válida ou quando a solicitação ultrapassar os limites autorizados.
+- Funcionários que possuam delegação específica poderão atuar dentro dos limites definidos pela empresa, respeitando suas permissões e autorizações.
+- O encaminhamento ao gerente não deverá ocorrer automaticamente em situações que já estejam cobertas por uma delegação válida e dentro dos limites autorizados.
 - Enquanto aguarda avaliação, o cliente deverá receber informações claras sobre a pendência.
 - A IA não poderá prometer prazos que não tenham sido definidos pela empresa.
 - Uma pendência não deverá bloquear os demais atendimentos da operação.
 
 ## 3. Consequências e limites
 
-- O Módulo 05 será responsável pela compreensão e confirmação da solicitação comercial.
-- A elaboração formal da proposta e o registro do pedido serão responsabilidades do Módulo 06.
+- O Módulo 05 será responsável pela compreensão, organização e confirmação da solicitação comercial.
+- A elaboração formal da proposta e a condução das etapas posteriores de negociação serão responsabilidades do Módulo 06.
 - A confirmação da solicitação pelo cliente será uma condição obrigatória para a passagem entre os módulos.
+- A confirmação da solicitação não deverá ser confundida com aceite da proposta, aprovação interna ou registro de pedido.
+- O aceite da proposta comercial será uma manifestação posterior e específica do cliente, vinculada à versão e às condições apresentadas pelo Módulo 06.
+- A aprovação interna será uma etapa distinta do aceite da proposta comercial, sujeita às regras de autoridade e aprovação estabelecidas pela empresa.
 - O atendimento deverá preservar histórico, contexto, versões e confirmações.
 - A IA poderá facilitar decisões, mas não poderá assumir decisões comerciais que dependam do cliente ou da empresa.
 - O histórico e as permissões dos contatos deverão ser respeitados durante toda a interação.
-- O encaminhamento humano permanecerá sob controle do gerente.
+- O encaminhamento humano permanecerá sob controle do gerente, respeitando as delegações específicas e os limites de atuação previamente autorizados.
 - As regras aqui registradas deverão orientar os requisitos funcionais e os critérios de validação do Módulo 05.
 
 Esta decisão não altera as responsabilidades já definidas para os Módulos 01, 02 e 06, nem amplia o escopo do atendimento pós-venda ou da gestão logística.
@@ -113,5 +132,7 @@ Esta decisão não altera as responsabilidades já definidas para os Módulos 01
 
 - `docs/03-prd.md`
 - `docs/06-matriz-de-escopo-do-mvp.md`
+- `docs/07-matriz-de-rastreabilidade-de-decisoes-e-perguntas.md`
 - `docs/decisions/DEC-001-supervisao-operacional.md`
 - `docs/decisions/DEC-002-escopo-atendimento-pos-venda.md`
+- `docs/decisions/DEC-004-permissoes-individuais-contatos.md`

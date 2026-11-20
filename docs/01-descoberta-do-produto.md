@@ -2,7 +2,7 @@
 
 **Nome provisório:** Plataforma de Atendimento Inteligente
 **Status:** Versão revisada para consolidação
-**Data da revisão:** 18 de novembro de 2026
+**Data da revisão:** 19 de novembro de 2026
 **Data de referência da descoberta:** 16 de novembro de 2026
 **Repositório:** `marcos-lima-dev/repositorio-do-produto`
 
@@ -86,7 +86,7 @@ A experiência deverá combinar:
 
 O produto deve ter inteligência e complexidade suficientes para conduzir processos, mas sua utilização precisa ser simples para clientes, funcionários e gestores.
 
-O MVP deverá concentrar-se no atendimento comercial, desde o primeiro contato até o registro do pedido e sua aprovação interna.
+O MVP deverá concentrar-se no atendimento comercial, desde o primeiro contato até o aceite da proposta, o registro automático do pedido e sua aprovação interna.
 
 Capacidades mais amplas de gestão operacional, aprendizado avançado e integração com outros setores pertencem à visão de evolução do produto.
 
@@ -104,13 +104,17 @@ Segmentos como restaurantes, consultórios, pequenos comércios e distribuidores
 
 **Gerente ou responsável comercial**
 
-É responsável pelas decisões comerciais, especialmente pela aprovação ou recusa de pedidos, salvo delegação previamente autorizada.
+É responsável pelas decisões comerciais e pela aprovação ou recusa de pedidos, salvo quando houver autoridade de aprovação atribuída a outro funcionário conforme as configurações da empresa.
+
+Também atua na resolução de ocorrências e situações que ultrapassem as autorizações concedidas a outros participantes.
 
 **Funcionários autorizados**
 
 Podem receber solicitações e executar tarefas conforme as permissões configuradas pela empresa.
 
 A autorização para uma atividade não representa acesso irrestrito às demais operações.
+
+A empresa poderá conceder delegações específicas para determinadas atividades comerciais, observando os limites estabelecidos. A autorização para negociar uma condição especial, por exemplo, não representa automaticamente autoridade para aprovar pedidos.
 
 **Cliente final**
 
@@ -126,7 +130,7 @@ A empresa deverá definir as permissões de cada contato autorizado. Assim, cont
 
 A autorização de cada contato deverá ser verificada antes de permitir acesso a informações protegidas ou execução de operações comerciais.
 
-A identificação de um contato, isoladamente, não representa autorização irrestrita.
+A identificação de um contato, isoladamente, não representa autorização irrestrita. Cada ação protegida deverá respeitar as permissões individuais configuradas pela empresa.
 
 ## 6. Funcionamento esperado do atendimento
 
@@ -140,15 +144,22 @@ A IA deverá conduzir a maior parte das etapas possíveis sem depender de um fun
 4. Verifica o vínculo com a empresa e as permissões individuais do contato antes de liberar informações ou operações protegidas.
 5. Compreende os produtos, quantidades e condições desejadas.
 6. Consulta a base de informações da empresa.
-7. Verifica produtos, características, preços e disponibilidade, conforme os dados disponíveis.
+7. Verifica produtos, características, preços e disponibilidade, conforme os dados disponíveis e as regras comerciais aplicáveis.
 8. Apresenta opções e esclarece dúvidas usando informações confiáveis.
 9. Organiza a solicitação e apresenta um resumo para conferência.
 10. Aguarda a concordância expressa do cliente com a solicitação organizada.
-11. Encaminha a solicitação confirmada para o processo comercial seguinte.
-12. A proposta é apresentada ao cliente para decisão.
-13. Se aceita, é encaminhada para aprovação interna.
-14. O gerente ou funcionário previamente autorizado toma a decisão.
-15. A IA comunica o resultado e mantém o histórico atualizado.
+11. Encaminha a solicitação confirmada para o processo comercial seguinte, desde que os dados necessários estejam disponíveis.
+12. O processo comercial elabora e apresenta uma proposta ao cliente.
+13. O cliente manifesta aceite ou recusa da proposta apresentada, respeitando sua versão, condições e prazos de validade.
+14. O aceite válido gera automaticamente o registro do pedido, integral ou parcial, sem exigir uma segunda confirmação do cliente.
+15. O pedido segue para aprovação interna no M07. O cliente deverá ser informado de que o pedido aguarda essa aprovação.
+16. O gerente ou funcionário com autoridade específica toma a decisão, e a IA comunica o resultado e mantém o histórico atualizado.
+
+A confirmação da solicitação organizada não representa aceite de proposta, aprovação interna ou registro automático de pedido. São eventos distintos, que precisam ser registrados separadamente.
+
+Uma pendência restrita a determinado produto ou item não deverá bloquear automaticamente os demais itens válidos. A plataforma deverá preservar a situação de cada item e permitir o prosseguimento parcial quando as regras comerciais e os dados disponíveis permitirem.
+
+Uma pendência que comprometa a solicitação como um todo poderá impedir o encaminhamento global correspondente.
 
 A plataforma deverá manter outros atendimentos funcionando enquanto uma solicitação aguarda uma decisão ou resposta humana.
 
@@ -159,6 +170,8 @@ Uma pendência não deve bloquear o restante da operação.
 O sistema deve continuar atendendo outros clientes, acompanhando cada processo individualmente e informando os envolvidos sobre o andamento das solicitações.
 
 A continuidade não significa insistir indefinidamente com o cliente ou transferir automaticamente qualquer situação a um funcionário. Quando a intervenção humana for necessária, a plataforma deverá preservar o contexto e encaminhar a situação para a decisão do responsável adequado.
+
+Quando um atendimento for retomado, as informações necessárias às etapas ainda não concluídas deverão ser revalidadas. Essa revalidação não deverá alterar retroativamente uma proposta já apresentada e ainda válida.
 
 ## 7. Catálogo e confiabilidade das informações
 
@@ -192,6 +205,22 @@ A base servirá como referência para estudar a importação, organização e co
 - Não deve afirmar que um produto é melhor que outro sem critérios documentados.
 - Quando não houver informação confiável, deve reconhecer a limitação e solicitar esclarecimento ou apoio humano.
 - Informações comerciais devem respeitar as permissões de acesso configuradas pela empresa.
+- Um produto sem preço definido não poderá ser incluído em uma proposta.
+- A ausência de preço deverá bloquear o item afetado e gerar comunicação à gerência para correção do cadastro.
+- A ausência de preço de um produto não deverá impedir automaticamente a continuidade dos demais itens válidos da solicitação.
+- A IA deverá respeitar a tabela de preços autorizada para o cliente ou grupo correspondente, sem escolher livremente entre tabelas disponíveis.
+
+### Tabelas comerciais e preços
+
+A empresa poderá manter diferentes tabelas comerciais para finalidades, públicos ou grupos de clientes distintos.
+
+A existência de preços diferentes entre tabelas não representa, por si só, inconsistência. A aplicação deverá respeitar a associação autorizada entre cliente e tabela, assim como sua vigência.
+
+Quando não existir tabela válida e autorizada para o cliente, a IA não deverá escolher outra tabela nem reutilizar preços expirados.
+
+Quando houver conflito entre tabelas simultaneamente aplicáveis ao mesmo cliente, a negociação deverá ser bloqueada até a resolução pela pessoa responsável.
+
+A ausência de preço definido para um produto é uma situação diferente da ausência de tabela válida ou de conflito entre tabelas. Cada ocorrência deverá receber o tratamento correspondente.
 
 ### Atualização da base
 
@@ -207,6 +236,8 @@ Uma atualização não deverá apagar silenciosamente o histórico anterior.
 
 A IA poderá identificar problemas e sugerir correções, mas não deverá alterar ou publicar informações comerciais oficiais por conta própria.
 
+Alterações de preços e tabelas deverão respeitar as propostas e operações anteriores, sem modificar retroativamente condições comerciais legitimamente preservadas.
+
 ## 8. Histórico de preços e negociações
 
 Uma descoberta importante foi que o preço utilizado em uma negociação precisa ser relacionado ao momento em que aquela negociação aconteceu.
@@ -216,20 +247,38 @@ O cliente não deve perder as condições comerciais de uma proposta aceita simp
 A plataforma deverá preservar:
 
 - Versão da tabela de preços utilizada.
-- Data e horário da proposta.
+- Data e horário da emissão e da apresentação efetiva da proposta.
 - Produtos e quantidades apresentados.
 - Valores e condições comerciais.
+- Versões da proposta e alterações realizadas.
 - Decisões do cliente.
 - Aprovações e responsáveis.
 - Resultado final da negociação.
 
-### Regra de validade da proposta
+### Validade da proposta
 
-Foi definida uma validade de três dias para a proposta:
+A validade geral da proposta será de **72 horas corridas a partir de sua apresentação efetiva ao cliente**.
 
-- A proposta é apresentada ao cliente.
-- O cliente pode aceitá-la dentro de três dias.
-- Se não houver aceite nesse período, será considerada rejeitada.
+A plataforma deverá distinguir:
+
+- **Pendente de decisão:** proposta apresentada, ainda dentro do prazo e sem manifestação conclusiva do cliente.
+- **Aceita:** cliente manifesta expressamente seu aceite à versão apresentada, dentro do prazo e das condições aplicáveis.
+- **Recusada:** cliente manifesta expressamente que não aceita a proposta.
+- **Expirada:** o prazo termina sem aceite do cliente.
+
+A ausência de manifestação dentro do prazo não deverá ser registrada como rejeição expressa. A proposta expirada deverá permanecer no histórico com seu estado e prazo registrados.
+
+### Condições especiais negociadas
+
+Quando uma nova versão apresentar uma condição comercial especial, essa condição terá validade própria de **três dias corridos contados da emissão da nova versão**.
+
+Esse prazo é independente da validade geral de 72 horas da proposta, contada da apresentação efetiva ao cliente.
+
+A condição especial somente poderá ser aceita dentro de seu próprio prazo de validade, ainda que a validade geral da proposta permaneça em aberto.
+
+O vencimento da condição especial impede o aceite daquela condição, mas não invalida automaticamente a proposta original ou outras condições que ainda estejam válidas.
+
+A plataforma deverá preservar as versões, os prazos e as condições de forma independente, sem substituir silenciosamente uma condição por outra.
 
 ### Aprovação comercial
 
@@ -238,15 +287,17 @@ O aceite do cliente e a aprovação da empresa são etapas distintas.
 As regras estabelecidas são:
 
 - O gerente é o responsável pela aprovação comercial por padrão.
-- A própria empresa configura previamente quais funcionários também podem aprovar.
-- Enquanto não houver autorização ou delegação configurada, a responsabilidade permanece com o gerente.
-- Funcionários não autorizados não podem liberar pedidos.
-- Toda aprovação deve registrar quem tomou a decisão e quando.
+- A própria empresa configura previamente quais funcionários também possuem autoridade para aprovar pedidos.
+- Enquanto não houver autoridade de aprovação atribuída a outro funcionário, a responsabilidade permanece com o gerente.
+- Funcionários sem autoridade de aprovação não podem liberar pedidos.
+- Toda aprovação ou recusa deve registrar quem tomou a decisão e quando.
 - A IA acompanha a pendência e comunica o resultado ao cliente.
+
+A autoridade para aprovar pedidos não deve ser confundida com a permissão individual de um contato cliente ou com a delegação específica para negociar condições comerciais especiais.
 
 ### Proteção das condições comerciais
 
-As condições comerciais aceitas pelo cliente dentro da validade da proposta devem ser preservadas.
+As condições comerciais aceitas pelo cliente dentro da validade aplicável devem ser preservadas.
 
 A aprovação interna posterior não autoriza a empresa a alterar unilateralmente produtos, quantidades, preços ou condições aceitas.
 
@@ -254,7 +305,7 @@ Se a empresa não puder aprovar a operação, deverá registrar o motivo e comun
 
 Alterações posteriores nas tabelas comerciais não modificam retroativamente propostas ou pedidos encerrados.
 
-Quando uma proposta expirar sem aceite, uma negociação posterior deverá considerar as condições comerciais vigentes.
+Quando uma proposta expirar sem aceite, uma negociação posterior deverá considerar as condições comerciais vigentes no momento da nova negociação.
 
 Se houver necessidade de modificar uma proposta já aceita, a alteração deverá ser tratada de forma transparente, com nova apresentação e concordância do cliente, respeitando as regras comerciais aplicáveis.
 
@@ -269,6 +320,9 @@ Exemplos:
 - Estoque insuficiente.
 - Falta de aprovação.
 - Informação ausente ou desatualizada.
+- Produto sem preço definido.
+- Ausência de tabela válida para o cliente.
+- Conflito entre tabelas simultaneamente aplicáveis.
 - Funcionário sem resposta.
 - Solicitação que exige uma decisão humana.
 
@@ -278,13 +332,15 @@ No contexto do MVP, a plataforma deverá:
 
 - Registrar a ocorrência relacionada à operação comercial.
 - Informar a empresa responsável.
-- Manter o cliente informado sobre o andamento.
+- Manter o cliente informado sobre o andamento, quando apropriado.
 - Encaminhar a situação ao responsável adequado.
 - Acompanhar a pendência.
 - Solicitar uma ação quando necessário.
 - Registrar a resolução, sua causa e a solução aplicada.
 
 A empresa deverá conseguir consultar as ocorrências e acompanhar seus estados, conforme os recursos de supervisão operacional básica.
+
+A ausência de preço definido deverá gerar comunicação à gerência para correção. O item afetado não poderá integrar a proposta enquanto não houver preço válido, mas os demais itens válidos poderão continuar no fluxo comercial.
 
 O sistema não deverá gerar burocracia desnecessária nem envolver muitos funcionários sem necessidade.
 
@@ -297,6 +353,12 @@ A preferência definida é encaminhar solicitações para funcionários específ
 Em situações especiais, mais de um funcionário poderá participar, mas isso não deverá ser o padrão.
 
 A escolha do responsável deverá respeitar as autorizações e configurações da empresa.
+
+Negociações especiais poderão ser conduzidas por funcionário que possua delegação específica, válida e dentro dos limites autorizados. Essas situações não deverão ser encaminhadas automaticamente ao gerente apenas por envolverem uma condição especial.
+
+Quando não houver delegação válida, ou quando a negociação ultrapassar os limites concedidos, a situação deverá ser encaminhada ao gerente ou responsável competente para decisão.
+
+O encaminhamento deverá preservar o contexto e o histórico do atendimento.
 
 ## 10. Painel administrativo e visibilidade operacional
 
@@ -338,12 +400,16 @@ A empresa deverá conseguir consultar o histórico de cada atendimento, incluind
 - Intervenções dos funcionários.
 - Produtos apresentados.
 - Preços e propostas.
+- Versões e condições comerciais.
 - Confirmações e decisões.
-- Aprovações e recusas.
+- Aceites e recusas.
+- Aprovações e recusas internas.
 - Ocorrências comerciais.
 - Datas e horários dos acontecimentos.
 
 O histórico deverá permitir reconstruir o que aconteceu comercialmente em cada atendimento, não apenas reproduzir uma transcrição de mensagens.
+
+O acesso ao histórico e às informações protegidas deverá respeitar as permissões configuradas pela empresa.
 
 ### Limites do MVP
 
@@ -470,7 +536,7 @@ Os princípios abaixo deverão orientar as decisões futuras:
 2. **Continuidade:** um atendimento pendente não bloqueia os demais.
 3. **Confiabilidade:** a IA não inventa informações comerciais.
 4. **Rastreabilidade:** decisões e alterações precisam ter histórico.
-5. **Responsabilidade:** decisões comerciais respeitam as permissões da empresa.
+5. **Responsabilidade:** decisões comerciais respeitam as permissões e delegações estabelecidas pela empresa.
 6. **Transparência operacional:** cliente e empresa recebem informações sobre o andamento.
 7. **Visibilidade:** a empresa acompanha os atendimentos conforme o nível de supervisão previsto.
 8. **Aprendizado controlado:** informações novas passam por validação.
@@ -483,24 +549,32 @@ As decisões formais e os direcionamentos já estabelecidos incluem:
 
 | Assunto | Decisão ou direcionamento |
 |---|---|
-| Missão do MVP | Atendimento comercial até o registro do pedido e aprovação interna |
-| Atendimento inicial | Não exige cadastro obrigatório |
+| Missão do MVP | Atendimento comercial até o aceite da proposta, o registro automático do pedido e sua aprovação interna |
+| Atendimento inicial | Não exige cadastro obrigatório para iniciar a conversa |
 | Identificação | Necessária antes de liberar informações e operações protegidas |
 | Cadastro | Pode ser conduzido pela IA durante a conversa |
 | Permissões | Definidas individualmente para cada contato autorizado |
+| Verificação de permissões | Cada ação protegida deve respeitar as permissões individuais configuradas pela empresa |
 | Atendimento comercial | A solicitação deve ser compreendida, organizada e confirmada expressamente antes de seguir para o processo comercial seguinte |
 | Operação | Executar tarefas quando autorizado e possível |
 | Continuidade | Atendimentos independentes não podem bloquear uns aos outros |
+| Pendências por item | Uma pendência isolada não bloqueia automaticamente os demais itens válidos |
 | Catálogo | Base inicial poderá vir de planilhas validadas |
 | Qualidade dos dados | Base deve ser conferida antes de entrar em operação |
 | IA comercial | Não deve inventar características, vantagens ou informações comerciais |
-| Propostas | Validade de três dias para aceite do cliente |
-| Aprovação | Gerente ou funcionário previamente autorizado |
-| Delegação | Configurada previamente pela empresa |
-| Auditoria | Registrar quem aprovou e quando |
-| Condições comerciais | Propostas aceitas preservam as condições acordadas |
+| Preço ausente | Produto sem preço definido não entra na proposta; a gerência deve ser comunicada e os demais itens válidos podem prosseguir |
+| Tabelas comerciais | A aplicação deve respeitar a tabela autorizada para cada cliente ou grupo |
+| Conflito de tabelas | Conflito ocorre quando mais de uma tabela é simultaneamente aplicável ao mesmo cliente e exige resolução |
+| Validade geral da proposta | 72 horas corridas a partir da apresentação efetiva ao cliente |
+| Condição especial | Três dias corridos a partir da emissão da nova versão que contém a condição especial, em prazo independente da validade geral |
+| Expiração | Ausência de aceite até o fim do prazo gera expiração, não rejeição expressa |
+| Aceite | Deve estar vinculado à versão e às condições apresentadas, dentro dos prazos aplicáveis |
+| Aprovação | Gerente ou funcionário com autoridade de aprovação previamente configurada |
+| Delegação comercial | Delegação específica para negociar condições especiais, respeitando seus limites |
+| Auditoria | Registrar quem tomou cada decisão e quando |
+| Condições comerciais | Condições aceitas devem ser preservadas conforme as regras aplicáveis |
 | Pendências | Devem ser registradas e acompanhadas no ciclo comercial |
-| Histórico | Empresa pode consultar conversas, intervenções e decisões |
+| Histórico | Empresa pode consultar conversas, intervenções e decisões, respeitando permissões |
 | Painel | Supervisão operacional básica faz parte do MVP |
 | Pós-venda | Atendimento completo permanece fora do escopo inicial |
 | Aprendizado | Novas informações passam por validação antes de integrar a base oficial |
@@ -517,9 +591,13 @@ As decisões formais e os direcionamentos já estabelecidos incluem:
 
 As decisões formais devem ser consultadas em `docs/decisions/` antes de alterar requisitos relacionados.
 
+A matriz de rastreabilidade é o instrumento complementar para consultar perguntas, decisões, regras derivadas, pendências e relações entre os módulos.
+
+Este documento apresenta a visão consolidada da descoberta. Os detalhes funcionais e critérios de aceitação devem permanecer nos documentos responsáveis, especialmente no PRD e nas decisões formais.
+
 ## 16. Hipóteses e questões ainda abertas
 
-As questões abaixo não devem ser tratadas como decisões já aprovadas.
+As questões abaixo não devem ser tratadas como decisões já aprovadas. A existência de uma questão nesta seção também não significa que ela precise ser resolvida imediatamente: sua necessidade e seu momento deverão ser avaliados conforme a etapa do produto.
 
 ### Mercado e posicionamento
 
@@ -537,9 +615,9 @@ As questões abaixo não devem ser tratadas como decisões já aprovadas.
 
 - Como serão tratados cancelamentos, reservas e pagamentos?
 - Como serão tratadas situações de indisponibilidade posterior ao aceite?
-- Quais serão os procedimentos operacionais para situações comerciais excepcionais?
+- Quais serão os procedimentos operacionais para situações comerciais excepcionais ainda não especificadas?
 
-As regras já definidas sobre validade das propostas, aceite do cliente, proteção das condições comerciais e aprovação interna não devem ser reabertas como questões pendentes.
+As regras já definidas sobre validade das propostas, aceite do cliente, proteção das condições comerciais, delegação para negociações especiais e aprovação interna não devem ser reabertas como questões pendentes.
 
 ### Dados
 
@@ -578,12 +656,13 @@ A documentação está sendo consolidada progressivamente, respeitando a respons
 A estrutura atual de trabalho é:
 
 1. Documento 01 — Descoberta do Produto: revisão e consolidação.
-2. Documento 02 — Visão e Escopo do Produto: elaborado e revisado.
-3. Documento 03 — PRD: módulos 01 a 05 especificados e revisados; módulos seguintes pendentes.
-4. Documento 04 — Regras de Negócio: reservado para detalhamento posterior.
+2. Documento 02 — Visão e Escopo do Produto: elaborado e revisado; em auditoria de consistência.
+3. Documento 03 — PRD: módulos 01 a 05 especificados e revisados; descoberta funcional do M06 concluída, com consolidação e formalização no PRD pendentes; módulos posteriores seguem conforme o planejamento.
+4. Documento 04 — Regras de Negócio: reservado para detalhamento posterior, com sua função documental ainda a definir.
 5. Documento 05 — Arquitetura Inicial: reservado para elaboração posterior.
 6. Documento 06 — Matriz de Escopo do MVP: elaborada e revisada.
-7. `docs/decisions/` — Registro formal das decisões aprovadas.
+7. Documento 07 — Matriz de Rastreabilidade de Decisões e Perguntas: instrumento permanente de consulta e governança.
+8. `docs/decisions/` — Registro formal das decisões aprovadas.
 
 A próxima etapa é concluir a auditoria de consistência da documentação, verificando se as decisões aprovadas estão refletidas nos documentos correspondentes e se não existem contradições entre visão, escopo, PRD e matriz do MVP.
 
@@ -593,4 +672,4 @@ O desenvolvimento deverá avançar com base em um escopo suficientemente claro, 
 
 ---
 
-**Nota de governança:** este documento registra a origem, a descoberta e a evolução conceitual do produto. Alterações futuras deverão preservar a distinção entre observações históricas, direcionamentos, decisões confirmadas, hipóteses e questões ainda pendentes.
+**Nota de governança:** este documento registra a origem, a descoberta e a evolução conceitual do produto. Alterações futuras deverão preservar a distinção entre observações históricas, direcionamentos, decisões confirmadas, regras derivadas, hipóteses e questões ainda pendentes. A matriz de rastreabilidade e os registros formais de decisão deverão ser consultados antes de formular novas perguntas ou alterar requisitos já definidos.

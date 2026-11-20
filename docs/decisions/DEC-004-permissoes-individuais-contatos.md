@@ -1,7 +1,9 @@
 # DEC-004 — Permissões individuais dos contatos autorizados
 
-**Produto:** Plataforma de Atendimento Inteligente  
-**Data:** 18 de novembro de 2026  
+**Produto:** Plataforma de Atendimento Inteligente
+
+**Data:** 18 de novembro de 2026
+
 **Status:** Aprovada
 
 ## 1. Contexto
